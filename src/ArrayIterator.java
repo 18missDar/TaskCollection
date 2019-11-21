@@ -17,4 +17,15 @@ public class ArrayIterator<E> implements Iterator<E> {
     public E next() {
         return values[index++];
     }
+
+
+    @Override
+    public void remove() {
+        int nElements = values.length;
+        if (index < nElements - 1) {
+            System.arraycopy(values, index+1,
+                    values, index, nElements - index-1);
+        }
+        nElements--;
+    }
 }

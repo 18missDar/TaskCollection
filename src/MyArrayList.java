@@ -1,4 +1,7 @@
 import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
+import java.util.Vector;
 
 public class MyArrayList<E> implements ArrayList<E> {
     private E[] values;
@@ -38,6 +41,41 @@ public class MyArrayList<E> implements ArrayList<E> {
     @Override
     public void update(int index, E e) {
         values[index] = e;
+    }
+
+    @Override
+    public void addCollection(E[] e) {
+        for (E elem: e){
+            add(elem);
+        }
+    }
+
+    @Override
+    public void addCollection(List<E> e) {
+        for (E elem: e){
+            add(elem);
+        }
+    }
+
+    @Override
+    public void addCollection(Stack<E> e) {
+        for (E elem: e){
+            add(elem);
+        }
+    }
+
+    @Override
+    public void addCollection(Vector<E> e) {
+        for (E elem: e){
+            add(elem);
+        }
+    }
+
+    @Override
+    public void addMy(MyArrayList<E> e) {
+        for (E elem: e){
+            add(elem);
+        }
     }
 
     @Override
