@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class Test {
     public static void main(String[] args) {
         MyArrayList<String> myst = new MyArrayList<>();
@@ -6,29 +10,25 @@ public class Test {
         myst.add("friend");
         myst.add("welcome");
 
-        MyArrayList<String> myst2 = new MyArrayList<>();
-        myst2.add("one");
-        myst.addMy(myst2);
-
-        String[] mas = {"second","third"};
-        myst.addCollection(mas);
+//        MyArrayList<String> myst2 = new MyArrayList<>();
+//        myst2.add("one");
+//        myst.addCollection(myst2);
 
 
-        for (String s: myst){
-            System.out.println(s);;
+        String str = "";
+        Iterator<String> i = myst.iterator();
+        while (i.hasNext()) {
+            str = i.next();
+            if (str.equals("world")) {
+                i.remove();
+                System.out.println("\nThe element world is removed");
+                break;
+            }
         }
 
-
-//        String[] my = {"next","fggggg","fffff"};
-//        ArrayIterator<String> myit = new ArrayIterator<>(my);
-//        while(myit.hasNext()){
-//            if (myit.next().equals("next")){
-//                myit.remove();
-//            }
-//        }
-//        while(myit.hasNext()){
-//            System.out.println(myit.next());
-//        }
+        for (String s: myst){
+            System.out.println(s);
+        }
 
     }
 }

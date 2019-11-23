@@ -18,14 +18,22 @@ public class ArrayIterator<E> implements Iterator<E> {
         return values[index++];
     }
 
-
     @Override
     public void remove() {
-        int nElements = values.length;
-        if (index < nElements - 1) {
-            System.arraycopy(values, index+1,
-                    values, index, nElements - index-1);
+        if(index <= 0) {
+            throw new IllegalStateException("You can't delete element before first next() method call");
         }
-        nElements--;
+        else{
+            index--;
+            E[] temp = values;
+            values = (E[]) new Object[temp.length - 1];
+            System.arraycopy(temp, 0, values, 0, index);
+            int countElements = temp.length - index - 1;
+            System.arraycopy(temp, index + 1, values, index, countElements);
+            for (E el:values){
+                System.out.println(el);
+            }
+        }
     }
+
 }

@@ -1,6 +1,4 @@
-import java.util.List;
-import java.util.Stack;
-import java.util.Vector;
+import java.util.Collection;
 
 public interface ArrayList<E> extends Iterable<E> {
     boolean add(E e);
@@ -13,13 +11,5 @@ public interface ArrayList<E> extends Iterable<E> {
 
     void update(int index, E e);
 
-    void addCollection(E[] e);
-
-    void addCollection(List<E> e);
-
-    void addCollection(Stack<E> e);
-
-    void addCollection(Vector<E> e);
-
-    void addMy(MyArrayList<E> e);
+    void addCollection(Collection<E> e);
 }

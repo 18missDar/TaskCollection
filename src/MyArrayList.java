@@ -1,9 +1,8 @@
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
-import java.util.Vector;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-public class MyArrayList<E> implements ArrayList<E> {
+public class MyArrayList<E> implements ArrayList<E>, Collection<E>{
     private E[] values;
 
     MyArrayList() {
@@ -17,6 +16,72 @@ public class MyArrayList<E> implements ArrayList<E> {
         System.arraycopy(temp, 0, values, 0, temp.length);
         values[values.length - 1] = e;
         return true;
+    }
+
+    public int find(E e){
+        for (int i = 0; i< values.length; i++){
+            if (values[i].equals(e)) return i;
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        int number = find((E)o);
+        if (number != -1){
+            delete(number);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        return false;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super E> filter) {
+        return false;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i<values.length; i++){
+            delete(i);
+        }
+    }
+
+    @Override
+    public Spliterator<E> spliterator() {
+        return null;
+    }
+
+    @Override
+    public Stream<E> stream() {
+        return null;
+    }
+
+    @Override
+    public Stream<E> parallelStream() {
+        return null;
     }
 
     @Override
@@ -39,47 +104,42 @@ public class MyArrayList<E> implements ArrayList<E> {
     }
 
     @Override
+    public boolean isEmpty() {
+        return (values.length == 0) ? true : false;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        for (int i = 0; i< values.length; i++){
+            if (values[i].equals(o)) return true;
+        }
+        return false;
+    }
+
+    @Override
     public void update(int index, E e) {
         values[index] = e;
     }
 
     @Override
-    public void addCollection(E[] e) {
-        for (E elem: e){
-            add(elem);
-        }
-    }
-
-    @Override
-    public void addCollection(List<E> e) {
-        for (E elem: e){
-            add(elem);
-        }
-    }
-
-    @Override
-    public void addCollection(Stack<E> e) {
-        for (E elem: e){
-            add(elem);
-        }
-    }
-
-    @Override
-    public void addCollection(Vector<E> e) {
-        for (E elem: e){
-            add(elem);
-        }
-    }
-
-    @Override
-    public void addMy(MyArrayList<E> e) {
-        for (E elem: e){
-            add(elem);
-        }
+    public void addCollection(Collection<E> e) {
+       for (E elem: e){
+           add(elem);
+       }
     }
 
     @Override
     public Iterator<E> iterator() {
         return new ArrayIterator<E>(values);
+    }
+
+    @Override
+    public Object[] toArray() {
+        return new Object[0];
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return null;
     }
 }
