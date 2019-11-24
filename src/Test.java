@@ -14,21 +14,16 @@ public class Test {
 //        myst2.add("one");
 //        myst.addCollection(myst2);
 
-
         String str = "";
         Iterator<String> i = myst.iterator();
         while (i.hasNext()) {
             str = i.next();
             if (str.equals("world")) {
                 i.remove();
-                System.out.println("\nThe element world is removed");
                 break;
             }
         }
 
-        for (String s: myst){
-            System.out.println(s);
-        }
-
+        myst.print();
     }
 }

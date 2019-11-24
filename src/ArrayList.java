@@ -1,6 +1,6 @@
 import java.util.Collection;
 
-public interface ArrayList<E> extends Iterable<E> {
+public interface ArrayList<E> extends Collection<E> {
     boolean add(E e);
 
     void delete(int index);

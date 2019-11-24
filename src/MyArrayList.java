@@ -1,21 +1,87 @@
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import java.util.Iterator;
 
-public class MyArrayList<E> implements ArrayList<E>, Collection<E>{
+public class MyArrayList<E> implements ArrayList<E>{
+
+    private static final int DEFAULT_CAPACITY = 10;
+
     private E[] values;
+    private int size = 0;
 
-    MyArrayList() {
+    public MyArrayList() {
         values = (E[]) new Object[0];
+    }
+
+    public class ArrayIterator<E> implements Iterator<E> {
+        private int index = 0;
+        private E[] val;
+
+        ArrayIterator() {
+             val = (E[]) MyArrayList.this.values;
+         }
+
+         @Override
+        public boolean hasNext() {
+            return index < val.length;
+        }
+
+        @Override
+        public E next() {
+            return val[index++];
+        }
+
+        @Override
+        public void remove() {
+            if (index <= 0) {
+                throw new IllegalStateException("You can't delete element before first next() method call");
+            }
+            else{
+                index--;
+                E[] temp = (E[]) MyArrayList.this.values;
+                val = (E[]) new Object[temp.length - 1];
+                System.arraycopy(temp, 0, val, 0, index);
+                int countElements = temp.length - index - 1;
+                System.arraycopy(temp, index + 1, val, index, countElements);
+                for (E elem: val){
+                    System.out.println(elem);
+                }
+            }
+        }
+        public E[] getVal() {
+            return val;
+        }
+
+    }
+
+    public MyArrayList(E[] values, int size) {
+        this.values = values;
+        this.size = size;
+    }
+
+    private void grow(int minNewSize) {
+        if (values.length == 0) {
+            values = (E[]) new Object[Math.max(DEFAULT_CAPACITY, minNewSize)];
+        } else {
+            int newSize = Math.max(minNewSize, (values.length >> 1) + values.length);
+            values = Arrays.copyOf(values, newSize);
+        }
     }
 
     @Override
     public boolean add(E e) {
-        E[] temp = values;
-        values = (E[]) new Object[temp.length+1];
-        System.arraycopy(temp, 0, values, 0, temp.length);
-        values[values.length - 1] = e;
+        if (size == values.length) {
+            grow(size + 1);
+        }
+        values[size++] = e;
         return true;
+    }
+
+    public void print(){
+        for (int i = 0; i<values.length; i++){
+            System.out.println(values[i]);
+        }
     }
 
     public int find(E e){
@@ -86,6 +152,7 @@ public class MyArrayList<E> implements ArrayList<E>, Collection<E>{
 
     @Override
     public void delete(int index) {
+        size--;
         E[] temp = values;
         values = (E[]) new Object[temp.length - 1];
         System.arraycopy(temp, 0, values, 0, index);
@@ -123,14 +190,17 @@ public class MyArrayList<E> implements ArrayList<E>, Collection<E>{
 
     @Override
     public void addCollection(Collection<E> e) {
-       for (E elem: e){
-           add(elem);
-       }
+        E[] temp = values;
+        grow(e.size() + size);
+        System.arraycopy(temp, 0, values, 0, temp.length);
+        System.arraycopy(e, 0, values, temp.length + 1, e.size());
     }
 
     @Override
     public Iterator<E> iterator() {
-        return new ArrayIterator<E>(values);
+        ArrayIterator iterator = new ArrayIterator<E>();
+        values = (E[]) Arrays.copyOf( iterator.getVal(), 10);
+        return iterator;
     }
 
     @Override
